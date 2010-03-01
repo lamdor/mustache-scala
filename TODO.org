@@ -1,0 +1,19 @@
+* mustache-scala
+*** variables
+***** TODO simple map i.e. Mustache.render("Hello {{planet}}", 'planet -> "World!") or with "planet" -> "World!"
+***** TODO Mustache class i.e. examples/simple.scala
+*** TODO boolean section
+*** TODO boolean section with nested variables
+*** TODO html escape by default
+*** TODO use {{{ ... }}} to not escape
+*** TODO "miss" should return empty string
+*** TODO option to throw exception on "miss"
+*** TODO enumerable sections
+*** TODO comments
+*** TODO partials
+*** TODO ability to change delimiters
+*** TODO Dict style views
+*** TODO ability to set template path
+*** TODO ability to set template extension
+*** TODO java class as backing object
+*** TODO jersey integration
