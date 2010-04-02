@@ -1,9 +1,20 @@
 * mustache-scala
 *** variables
-***** TODO simple map i.e. Mustache.render("Hello {{planet}}", 'planet -> "World!") or with "planet" -> "World!"
-***** TODO Mustache class i.e. examples/simple.scala
+***** DONE simple map i.e. Mustache.render("Hello {{planet}}", 'planet -> "World!") or with "planet" -> "World!"
+      CLOSED: [2010-04-01 Thu 23:12]
+      :LOGBOOK:
+      - State "DONE"       from "TODO"       [2010-04-01 Thu 23:12]
+      :END:
+***** DONE Mustache class i.e. test/fixtures/passenger
+      CLOSED: [2010-04-01 Thu 23:12]
+      :LOGBOOK:
+      - State "DONE"       from "TODO"       [2010-04-01 Thu 23:12]
+      :END:
+***** TODO Mustache class with singleton object
+*** TODO default templateExtension ("mustache") spec
 *** TODO boolean section
 *** TODO boolean section with nested variables
+*** TODO Mustache.render(string, object) spec
 *** TODO html escape by default
 *** TODO use {{{ ... }}} to not escape
 *** TODO "miss" should return empty string
