@@ -1,23 +1,35 @@
 package mustache
 
+abstract class Binding {
+  def stringValueFor(name: String): String
+}
+
+class MapBinding[T](view: Map[String, T]) extends Binding {
+  def stringValueFor(name: String): String = view.getOrElse(name, "").toString
+}
+
+class ObjectBinding(obj: Object) extends Binding {
+  def stringValueFor(name: String): String = {
+    val method = obj.getClass.getMethod(name)
+    method.invoke(obj).toString
+  }
+}
+
 object Mustache {
   private val ValueExpressionRE = """(?s)\{\{(\w+)\}\}""".r
 
   def render(template: String) = template
 
-  def render(template: String, view: Map[String, String]): String = {
-    var replacedTemplate = template
-    view.foreach { entry =>
-      replacedTemplate = replacedTemplate.replaceAll("\\{\\{" + entry._1 + "\\}\\}", entry._2)
-    }
-    return replacedTemplate
-  }
+  def render[T](template: String, view: Map[String, T]): String =
+    render(template, new MapBinding(view))
 
-  def render(template: String, backingObject: Object): String = {
+  def render(template: String, backingObject: Object): String =
+    render(template, new ObjectBinding(backingObject))
+
+  def render(template: String, binding: Binding): String = {
     (ValueExpressionRE findFirstIn template) match {
       case Some(expr @ ValueExpressionRE(name)) => {
-        val value = backingObject.getClass.getMethod(name).invoke(backingObject)
-        render(template.replace(expr, value.toString), backingObject)
+        render(template.replace(expr, binding.stringValueFor(name)), binding)
       }
       case None => template
     }
@@ -29,11 +41,14 @@ abstract class Mustache {
 
   protected var templateExtension: String = _
 
-  def render(): String = {
+  def template: String = {
     val templateLocation = getClass.getName.replaceAll("\\.", "/") + "." + templateExtension
     val templateURL = getClass.getResource("/" + templateLocation)
     val templateSource = Source.fromURL(templateURL)
-    val template = templateSource.getLines.mkString
+    templateSource.getLines.mkString
+  }
+
+  def render(): String = {
     Mustache.render(template, this)
   }
 }
