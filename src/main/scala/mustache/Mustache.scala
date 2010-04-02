@@ -16,7 +16,7 @@ class ObjectBinding(obj: Object) extends Binding {
 }
 
 object Mustache {
-  private val ValueExpressionRE = """(?s)\{\{(\w+)\}\}""".r
+  private val ValueExpressionRE = """(?s)\{\{\s*(\w+)\s*\}\}""".r
 
   def render(template: String) = template
 
