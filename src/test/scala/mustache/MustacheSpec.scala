@@ -1,16 +1,31 @@
 package mustache
 
+import fixtures._
+
 import org.specs._
 
 class MustacheSpec extends Specification {
-  "render with a plain string template" in {
-    val output = Mustache.render("hello")
-    output must_== "hello"
+  "Mustache object" >> {
+    "render with a plain string template" in {
+      Mustache.render("hello") must equalIgnoreSpace ("hello")
+    }
+
+    "render a simple string template with a map" in {
+      val view = Map("planet" -> "World!")
+      Mustache.render("Hello {{planet}}", view) must equalIgnoreSpace ("Hello World!")
+    }
   }
 
-  "render a simple string template with a map" in {
-    val view = Map("planet" -> "World!")
-    val output = Mustache.render("Hello {{planet}}", view)
-    output must_== "Hello World!"
+  "Mustache class" >> {
+    "render a simple example" in {
+      val expected = """
+<VirtualHost *>
+  ServerName example.com
+  DocumentRoot /var/www/example.com
+  RailsEnv production
+</VirtualHost>
+      """
+      (new Passenger).render must equalIgnoreSpace (expected)
+    }
   }
 }
