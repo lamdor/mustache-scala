@@ -31,5 +31,16 @@ class MustacheSpec extends Specification {
     "render with the default extension of .mustache" in {
       (new DefaultExtension).render must equalIgnoreSpace ("Hello world!")
     }
+
+    "render with values and boolean sections" in {
+      val expected = """
+Hello Luke
+You have just won $10000!
+Well, $6000.0, after taxes.
+      """
+      (new Simple).render must equalIgnoreSpace (expected)
+    }
+
+    "complain if unable to find template" in { }
   }
 }
