@@ -50,19 +50,29 @@ object Mustache {
   }
 }
 
+case class TemplateNotFoundException(message: String) extends Exception
+
 abstract class Mustache {
   import scala.io.Source
 
   protected var templateExtension: String = "mustache"
 
-  def template: String = {
-    val templateLocation = getClass.getName.replaceAll("\\.", "/") + "." + templateExtension
+  lazy val templateLocation = getClass.getName.replaceAll("\\.", "/") + "." + templateExtension
+
+  lazy val template: Option[String] = {
     val templateURL = getClass.getResource("/" + templateLocation)
-    val templateSource = Source.fromURL(templateURL)
-    templateSource.getLines.mkString
+    try {
+      val templateSource = Source.fromURL(templateURL)
+      Some(templateSource.getLines.mkString)
+    } catch {
+      case e: Exception => None
+    }
   }
 
   def render(): String = {
-    Mustache.render(template, this)
+    template match {
+      case Some(templateString) => Mustache.render(templateString, this)
+      case None => throw TemplateNotFoundException("unable to find template " + templateLocation)
+    }
   }
 }

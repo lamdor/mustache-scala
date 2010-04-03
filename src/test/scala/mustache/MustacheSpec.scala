@@ -41,6 +41,8 @@ Well, $6000.0, after taxes.
       (new Simple).render must equalIgnoreSpace (expected)
     }
 
-    "complain if unable to find template" in { }
+    "complain if unable to find template" in {
+      (new NonExistentTemplate).render must throwA (TemplateNotFoundException("unable to find template mustache.fixtures.NonExistentTemplate.mustache"))
+    }
   }
 }
