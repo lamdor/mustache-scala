@@ -27,5 +27,9 @@ class MustacheSpec extends Specification {
       """
       (new Passenger).render must equalIgnoreSpace (expected)
     }
+
+    "render with the default extension of .mustache" in {
+      (new DefaultExtension).render must equalIgnoreSpace ("Hello world!")
+    }
   }
 }

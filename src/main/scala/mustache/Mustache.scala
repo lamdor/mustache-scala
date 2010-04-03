@@ -8,10 +8,10 @@ class MapBinding[T](view: Map[String, T]) extends Binding {
   def stringValueFor(name: String): String = view.getOrElse(name, "").toString
 }
 
-class ObjectBinding(obj: Object) extends Binding {
+class ObjectBinding(view: Object) extends Binding {
   def stringValueFor(name: String): String = {
-    val method = obj.getClass.getMethod(name)
-    method.invoke(obj).toString
+    val method = view.getClass.getMethod(name)
+    method.invoke(view).toString
   }
 }
 
@@ -39,7 +39,7 @@ object Mustache {
 abstract class Mustache {
   import scala.io.Source
 
-  protected var templateExtension: String = _
+  protected var templateExtension: String = "mustache"
 
   def template: String = {
     val templateLocation = getClass.getName.replaceAll("\\.", "/") + "." + templateExtension
