@@ -37,7 +37,7 @@ class MustacheSpec extends Specification {
 Hello Luke
 You have just won $10000!
 Well, $6000.0, after taxes.
-      """
+       """
       (new Simple).render must equalIgnoreSpace (expected)
     }
 
